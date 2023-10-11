@@ -20,7 +20,7 @@ public class PlayerController : MonoBehaviour
     {
         // Get the vertical input from the Input manager
         float forwardInput = Input.GetAxis("Vertical");
-        // Move the player forward and backward
+        // Move the player forward and backward in the forward direction of the focal point
         playerRb.AddForce(focalPoint.transform.forward * forwardInput * speed);
     }
 }
