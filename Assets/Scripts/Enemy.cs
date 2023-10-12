@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -20,5 +18,10 @@ public class Enemy : MonoBehaviour
     {
         Vector3 lookDirection = (player.transform.position - transform.position).normalized; // Get the direction from the enemy to the player
         enemyRb.AddForce(lookDirection * speed); // Move the enemy towards the player, normalized force
+
+        if (transform.position.y < -10) // If the enemy falls below y = 10
+        {
+            Destroy(gameObject); // Destroy the enemy if it falls off the platform
+        }
     }
 }
