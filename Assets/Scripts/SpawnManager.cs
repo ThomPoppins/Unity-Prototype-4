@@ -5,11 +5,12 @@ public class SpawnManager : MonoBehaviour
     public GameObject enemyPrefab; // Enemy prefab to spawn
     private float spawnRange = 9.0f; // Spawn range
     private int enemyCount; // Enemy count
+    private int waveNumber = 1; // Wave number
 
     // Start is called before the first frame update
     void Start()
     {
-        SpawnEnemyWave(3); // Spawn the enemy wave
+        SpawnEnemyWave(waveNumber); // Spawn the enemy wave
     }
 
     // Update is called once per frame
@@ -19,7 +20,8 @@ public class SpawnManager : MonoBehaviour
 
         if (enemyCount == 0) // If there are no enemies
         {
-            SpawnEnemyWave(1); // Spawn an enemy wave
+            waveNumber++; // Increment the wave number
+            SpawnEnemyWave(waveNumber); // Spawn an enemy wave with the amount equal to new wave number
         }
     }
 
