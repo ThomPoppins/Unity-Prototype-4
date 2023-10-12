@@ -19,7 +19,6 @@ public class Enemy : MonoBehaviour
     void Update()
     {
         Vector3 lookDirection = (player.transform.position - transform.position).normalized; // Get the direction from the enemy to the player
-
         enemyRb.AddForce(lookDirection * speed); // Move the enemy towards the player, normalized force
     }
 }
