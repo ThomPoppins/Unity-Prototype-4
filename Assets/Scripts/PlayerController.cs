@@ -7,6 +7,7 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb; // Player's Rigidbody component
     private GameObject focalPoint; // Focal point for the camera
     public float speed = 5.0f; // Movement speed in meters per second
+    public bool hasPowerup = false;
 
     // Start is called before the first frame update
     void Start()
@@ -22,5 +23,14 @@ public class PlayerController : MonoBehaviour
         float forwardInput = Input.GetAxis("Vertical");
         // Move the player forward and backward in the forward direction of the focal point
         playerRb.AddForce(focalPoint.transform.forward * forwardInput * speed);
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Powerup"))
+        {
+            hasPowerup = true;
+            Destroy(other.gameObject);
+        }
     }
 }
