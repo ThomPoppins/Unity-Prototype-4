@@ -3,6 +3,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject enemyPrefab; // Enemy prefab to spawn
+    public GameObject powerupPrefab; // Powerup prefab to spawn
     private float spawnRange = 9.0f; // Spawn range
     private int enemyCount; // Enemy count
     private int waveNumber = 1; // Wave number
@@ -11,6 +12,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         SpawnEnemyWave(waveNumber); // Spawn the enemy wave
+        Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation); // Spawn an powerup prefab at the spawn position
     }
 
     // Update is called once per frame
@@ -22,6 +24,7 @@ public class SpawnManager : MonoBehaviour
         {
             waveNumber++; // Increment the wave number
             SpawnEnemyWave(waveNumber); // Spawn an enemy wave with the amount equal to new wave number
+            Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation); // Spawn an powerup prefab at the spawn position
         }
     }
 
