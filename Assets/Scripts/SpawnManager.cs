@@ -7,13 +7,22 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation); // Spawn an enemy prefab at the spawn position
+        SpawnEnemyWave(); // Spawn the enemy wave
     }
 
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    // Spawn enemy wave
+    void SpawnEnemyWave()
+    {
+        for (int i = 0; i < 3; i++) // Spawn 3 enemies
+        {
+            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation); // Spawn an enemy prefab at the spawn position
+        }
     }
 
     private Vector3 GenerateSpawnPosition() // Generate a random spawn position
