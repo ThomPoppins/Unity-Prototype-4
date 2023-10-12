@@ -7,7 +7,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody playerRb; // Player's Rigidbody component
     private GameObject focalPoint; // Focal point for the camera
     public float speed = 5.0f; // Movement speed in meters per second
-    public bool hasPowerup = false;
+    public bool hasPowerup = false; // Powerup status
+    private float powerupStrength = 15.0f; // Powerup strength
 
     // Start is called before the first frame update
     void Start()
@@ -31,14 +32,24 @@ public class PlayerController : MonoBehaviour
         {
             hasPowerup = true;
             Destroy(other.gameObject);
+            StartCoroutine(startCountdownRoutine());
         }
+    }
+
+    IEnumerator startCountdownRoutine()
+    {
+        yield return new WaitForSeconds(10);
+        hasPowerup = false;
     }
 
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Enemy") && hasPowerup)
         {
-            Debug.Log("Player has collided with " + collision.gameObject + " with powerup set to " + hasPowerup);
+            Rigidbody enemyRigidbody = collision.gameObject.GetComponent<Rigidbody>(); // Get the enemy's Rigidbody component
+            Vector3 awayFromPlayer = collision.gameObject.transform.position - transform.position; // Get the direction away from the player
+
+            enemyRigidbody.AddForce(awayFromPlayer * powerupStrength, ForceMode.Impulse); // Apply a force away from the player
         }
     }
 }
