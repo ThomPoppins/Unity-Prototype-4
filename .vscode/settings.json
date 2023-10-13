@@ -52,5 +52,5 @@
     "Temp/": true
   },
   "dotnet.preferCSharpExtension": true,
-  "cSpell.words": ["Behaviour", "Powerup", "Rigidbody"]
+  "cSpell.words": ["Behaviour", "Cooldown", "Powerup", "Rigidbody"]
 }
