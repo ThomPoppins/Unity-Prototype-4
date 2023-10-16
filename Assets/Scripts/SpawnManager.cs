@@ -6,6 +6,10 @@ public class SpawnManager : MonoBehaviour
     public GameObject hardEnemyPrefab; // Hard enemy prefab to spawn
     public GameObject powerupPrefab; // Powerup prefab to spawn
     public GameObject firePowerupPrefab; // Fire powerup prefab to spawn
+    private GameObject[] enemies; // Enemies
+    private GameObject player; // Player
+    // private PlayerController playerControllerScript; // PlayerController script
+    public GameObject firePrefab; // Fire prefab to spawn
     private float spawnRange = 9.0f; // Spawn range
     private int enemyCount; // Enemy count
     private int waveNumber = 1; // Wave number
@@ -13,6 +17,8 @@ public class SpawnManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        player = GameObject.Find("Player"); // Find the player
+
         SpawnEnemyWave(waveNumber); // Spawn the enemy wave
         SpawnPowerup(); // Spawn a powerup
     }
@@ -27,6 +33,32 @@ public class SpawnManager : MonoBehaviour
             waveNumber++; // Increment the wave number
             SpawnEnemyWave(waveNumber); // Spawn an enemy wave with the amount equal to new wave number
             SpawnPowerup(); // Spawn a powerup
+            Fire(); // Fire when player has fire powerup
+        }
+    }
+
+    void Fire()
+    {
+        enemies = GameObject.FindGameObjectsWithTag("Enemy"); // Get all enemies
+
+        PlayerController playerControllerScript = player.GetComponent<PlayerController>(); // Get the player's PlayerController component
+
+        if (playerControllerScript.hasFirePowerup)
+        {
+            Debug.Log("Fire!");
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                foreach (GameObject enemy in enemies) // For each enemy
+                {
+                    // firePrefab.transform.Rotate(new Vector3(90, 0, 0)); // Correct the original rotation
+
+                    // Rotate towards enemy location
+                    firePrefab.transform.LookAt(enemy.transform.position);
+
+                    Instantiate(firePrefab, player.transform.position, firePrefab.transform.rotation); // Spawn a fire prefab at the player's position
+                }
+
+            }
         }
     }
 
