@@ -33,8 +33,9 @@ public class SpawnManager : MonoBehaviour
             waveNumber++; // Increment the wave number
             SpawnEnemyWave(waveNumber); // Spawn an enemy wave with the amount equal to new wave number
             SpawnPowerup(); // Spawn a powerup
-            Fire(); // Fire when player has fire powerup
         }
+
+        Fire(); // Fire when player has fire powerup
     }
 
     void Fire()
@@ -45,26 +46,25 @@ public class SpawnManager : MonoBehaviour
 
         if (playerControllerScript.hasFirePowerup)
         {
-            Debug.Log("Fire!");
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("Fire!");
                 foreach (GameObject enemy in enemies) // For each enemy
                 {
-                    // firePrefab.transform.Rotate(new Vector3(90, 0, 0)); // Correct the original rotation
+                    firePrefab.transform.Rotate(new Vector3(90, 0, 0)); // Correct the original rotation
 
                     // Rotate towards enemy location
                     firePrefab.transform.LookAt(enemy.transform.position);
 
                     Instantiate(firePrefab, player.transform.position, firePrefab.transform.rotation); // Spawn a fire prefab at the player's position
                 }
-
             }
         }
     }
 
     void SpawnPowerup()
     {
-        if (Random.Range(0f, 10f) < 5.0f) // 50% chance to spawn a powerup
+        if (Random.Range(0f, 10f) < 1.0f) // 10% chance to spawn a powerup
         {
             Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation); // Spawn an powerup prefab at the spawn position
         }
