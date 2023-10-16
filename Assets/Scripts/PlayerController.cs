@@ -8,8 +8,10 @@ public class PlayerController : MonoBehaviour
     private GameObject focalPoint; // Focal point for the camera
     public float speed = 5.0f; // Movement speed in meters per second
     public bool hasPowerup = false; // Powerup status
+    public bool hasFirePowerup = false; // Fire powerup status
     private float powerupStrength = 15.0f; // Powerup strength
     public GameObject powerupIndicator; // Powerup indicator
+    public GameObject firePowerupIndicator; // Fire Powerup indicator
 
     // Start is called before the first frame update
     void Start()
@@ -28,6 +30,9 @@ public class PlayerController : MonoBehaviour
 
         // Set the powerup indicator position to the player's position with a slight offset on the y axis
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
+
+        // Set the fire powerup indicator position to the player's position with a slight offset on the y axis
+        firePowerupIndicator.transform.position = transform.position + new Vector3(0, -0.5f, 0);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,16 +42,31 @@ public class PlayerController : MonoBehaviour
             hasPowerup = true;
             Destroy(other.gameObject);
             powerupIndicator.gameObject.SetActive(true); // Set the powerup indicator to active
-            StartCoroutine(startCountdownRoutine()); // Start the countdown routine
+            StartCoroutine(startCountdownRoutinePowerup()); // Start the countdown routine
+        }
+        if (other.CompareTag("FirePowerup"))
+        {
+            hasFirePowerup = true;
+            Destroy(other.gameObject);
+            firePowerupIndicator.gameObject.SetActive(true); // Set the powerup indicator to active
+            StartCoroutine(startCountdownRoutineFirePowerup()); // Start the countdown routine
         }
     }
 
-    // Countdown coroutine
-    IEnumerator startCountdownRoutine()
+    // Countdown coroutine for powerup
+    IEnumerator startCountdownRoutinePowerup()
     {
         yield return new WaitForSeconds(10); // Wait for 10 seconds
         hasPowerup = false; // Set the powerup status to false
         powerupIndicator.gameObject.SetActive(false); // Set the powerup indicator to inactive
+    }
+
+    // Countdown coroutine for fire powerup
+    IEnumerator startCountdownRoutineFirePowerup()
+    {
+        yield return new WaitForSeconds(10); // Wait for 10 seconds
+        hasFirePowerup = false; // Set the powerup status to false
+        firePowerupIndicator.gameObject.SetActive(false); // Set the powerup indicator to inactive
     }
 
     private void OnCollisionEnter(Collision collision)
