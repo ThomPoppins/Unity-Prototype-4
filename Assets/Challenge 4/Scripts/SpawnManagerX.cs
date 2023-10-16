@@ -36,7 +36,6 @@ public class SpawnManagerX : MonoBehaviour
             IncreaseEnemySpeed();
             SpawnEnemyWave(waveCount);
         }
-
     }
 
     // Increase enemy movement speed
