@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerControllerX : MonoBehaviour
 {
     private Rigidbody playerRb;
-    private float speed = 500;
+    private float speed = 500f;
+    private float boostSpeed = 10f;
     private GameObject focalPoint;
 
     public bool hasPowerup;
@@ -14,6 +15,8 @@ public class PlayerControllerX : MonoBehaviour
 
     private float normalStrength = 10; // how hard to hit enemy without powerup
     private float powerupStrength = 25; // how hard to hit enemy with powerup
+    public ParticleSystem smokeParticle; // Particle effect for smoke
+
 
     void Start()
     {
@@ -23,13 +26,19 @@ public class PlayerControllerX : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space)) // If player presses spacebar
+        {
+            Debug.Log("Test this");
+            playerRb.AddForce(focalPoint.transform.forward * boostSpeed, ForceMode.Impulse); // Add force to player in direction of the focal point (and camera)
+            smokeParticle.Play(); // Play smoke particle effect
+        }
+
         // Add force to player in direction of the focal point (and camera)
         float verticalInput = Input.GetAxis("Vertical");
         playerRb.AddForce(focalPoint.transform.forward * verticalInput * speed * Time.deltaTime);
 
         // Set powerup indicator position to beneath player
         powerupIndicator.transform.position = transform.position + new Vector3(0, -0.6f, 0);
-
     }
 
     // If Player collides with powerup, activate powerup
