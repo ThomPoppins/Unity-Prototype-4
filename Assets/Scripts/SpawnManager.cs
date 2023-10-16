@@ -3,7 +3,9 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     public GameObject enemyPrefab; // Enemy prefab to spawn
+    public GameObject hardEnemyPrefab; // Hard enemy prefab to spawn
     public GameObject powerupPrefab; // Powerup prefab to spawn
+    public GameObject firePowerupPrefab; // Fire powerup prefab to spawn
     private float spawnRange = 9.0f; // Spawn range
     private int enemyCount; // Enemy count
     private int waveNumber = 1; // Wave number
@@ -12,7 +14,7 @@ public class SpawnManager : MonoBehaviour
     void Start()
     {
         SpawnEnemyWave(waveNumber); // Spawn the enemy wave
-        Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation); // Spawn an powerup prefab at the spawn position
+        SpawnPowerup(); // Spawn a powerup
     }
 
     // Update is called once per frame
@@ -24,7 +26,19 @@ public class SpawnManager : MonoBehaviour
         {
             waveNumber++; // Increment the wave number
             SpawnEnemyWave(waveNumber); // Spawn an enemy wave with the amount equal to new wave number
+            SpawnPowerup(); // Spawn a powerup
+        }
+    }
+
+    void SpawnPowerup()
+    {
+        if (Random.Range(0f, 10f) < 5.0f) // 50% chance to spawn a powerup
+        {
             Instantiate(powerupPrefab, GenerateSpawnPosition(), powerupPrefab.transform.rotation); // Spawn an powerup prefab at the spawn position
+        }
+        else
+        {
+            Instantiate(firePowerupPrefab, GenerateSpawnPosition(), firePowerupPrefab.transform.rotation); // Spawn an fire powerup prefab at the spawn position
         }
     }
 
@@ -33,9 +47,27 @@ public class SpawnManager : MonoBehaviour
     {
         for (int i = 0; i < enemiesToSpawn; i++) // Spawn enemies
         {
-            Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation); // Spawn an enemy prefab at the spawn position
+            if (spawnHardEnemy()) // If the enemy is hard
+            {
+                Instantiate(hardEnemyPrefab, GenerateSpawnPosition(), hardEnemyPrefab.transform.rotation); // Spawn a hard enemy prefab at the spawn position
+            }
+            else
+            {
+                Instantiate(enemyPrefab, GenerateSpawnPosition(), enemyPrefab.transform.rotation); // Spawn an enemy prefab at the spawn position
+            }
         }
     }
+
+    // Spawn hard enemy?
+    private bool spawnHardEnemy()
+    {
+        if (Random.Range(0f, 10f) < 2.5f)
+        {
+            return true;
+        }
+        return false;
+    }
+
 
     private Vector3 GenerateSpawnPosition() // Generate a random spawn position
     {
